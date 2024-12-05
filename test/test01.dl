@@ -3,7 +3,7 @@
 .functor wkTaint(a:number, b:number):number
 
 .decl modtest(e_0: number)
-modtest(e_0) :- e_0 = @mod(17,3).
+modtest(e_0) :- e_0 = @mod(18,3).
 .output modtest(IO=stdout)
 
 // .decl rpctest00(e_1:symbol)

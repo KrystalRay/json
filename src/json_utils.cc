@@ -1,4 +1,5 @@
-#include <json/json.h>
+// #include <json/json.h>
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -9,7 +10,7 @@
 #include <stdexcept>
 
 #include "json_utils.h"
-
+using json = nlohmann::json;
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -39,8 +40,8 @@ extern "C" {
         return data;
     }
 
-    Json::Value constructJSON(int source_id, int sink_id) {
-        Json::Value result;
+    nlohmann::json constructJSON(int source_id, int sink_id) {
+        nlohmann::json result;
 
         std::string csv_folder = "/tmp/tmp";
 
@@ -84,9 +85,9 @@ extern "C" {
         }
 
         // Initialize default values for FieldSources and Kills
-        result["FieldSources"] = Json::Value(Json::arrayValue);
+        result["FieldSources"] = nlohmann::json(nlohmann::json::array());
 
-        Json::Value kill;
+        nlohmann::json kill;
         kill["ParameterIndex"] = "1";
         kill["Fields"] = "";
         kill["DeclaringClass"] = "Ljavax/xml/parsers/DocumentBuilder";
@@ -94,7 +95,7 @@ extern "C" {
         kill["ReturnType"] = "V";
         kill["ArgTypes"] = "Lorg/xml/sax/EntityResolver";
         kill["BelongTo"] = "Solr_CVE_2018_1308";
-        result["Kills"].append(kill);
+        result["Kills"].push_back(kill);
 
         // Processing sink_id
         if (methods_map.find(sink_id) != methods_map.end()) {
@@ -114,15 +115,15 @@ extern "C" {
                     std::string declaring_class = "L" + package_name + "." + class_name;
                     std::replace(declaring_class.begin(), declaring_class.end(), '.', '/');
                     
-                    Json::Value sink;
+                    nlohmann::json sink;
                     sink["DeclaringClass"] = declaring_class;
                     sink["MethodName"] = method_name;
                     sink["ReturnType"] = "Lorg/w3c/dom/Document"; 
                     sink["ArgTypes"] = "Lorg/xml/sax/InputSource"; 
                     sink["BelongTo"] = "Solr_CVE_2018_1308";
-                    sink["AnySource2AnyArg"] = Json::Value(Json::objectValue);
+                    sink["AnySource2AnyArg"] = nlohmann::json(nlohmann::json::object());
 
-                    result["Sinks"].append(sink);
+                    result["Sinks"].push_back(sink);
                 }
             }
         }
@@ -145,7 +146,7 @@ extern "C" {
                     std::string declaring_class = "L" + package_name + "." + class_name;
                     std::replace(declaring_class.begin(), declaring_class.end(), '.', '/');
 
-                    Json::Value source;
+                    nlohmann::json source;
                     source["DeclaringClass"] = declaring_class;
                     source["MethodName"] = method_name;
                     source["ReturnType"] = "Ljava/lang/String"; 
@@ -154,18 +155,18 @@ extern "C" {
                     source["ParameterIndex"] = "-1"; 
                     source["BugLevel"] = "HIGH"; 
 
-                    result["Sources"].append(source);
+                    result["Sources"].push_back(source);
                 }
             }
         }
 
         // Ensure the structure has "Sinks" key even if no sink is found
         if (result["Sinks"].empty()) {
-            result["Sinks"] = Json::Value(Json::arrayValue);
+            result["Sinks"] = nlohmann::json(nlohmann::json::array());
         }
 
         if (result["Sources"].empty()) {
-            result["Sources"] = Json::Value(Json::arrayValue);
+            result["Sources"] = nlohmann::json(nlohmann::json::array());
         }
 
         // Test the result
@@ -179,9 +180,9 @@ extern "C" {
         return result;
     }
 
-    void saveJSON(const Json::Value& json, const char* filename) {
+    void saveJSON(const nlohmann::json& json, const char* filename) {
         std::ofstream file(filename);
-        file << json.toStyledString();
+        file << json.dump();
         file.close();
     }
 

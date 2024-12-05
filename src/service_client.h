@@ -1,17 +1,19 @@
 #ifndef SERVICE_CLIENT_H
 #define SERVICE_CLIENT_H
 
-#include <json/json.h>
+// #include <json/json.h>
+#include <nlohmann/json.hpp>
 
+using Json = nlohmann::json;
 #ifdef __cplusplus
 extern "C" {
 #endif
 
     int32_t mod(int32_t a, int32_t b);
 
-    Json::Value readInputJson(const char *filename);
+    nlohmann::json readInputJson(const char *filename);
 
-    Json::Value callProcessInputJson(const Json::Value& params);
+    nlohmann::json callProcessInputJson(const nlohmann::json& params);
 
 #ifdef __cplusplus
 }

@@ -14,6 +14,14 @@ if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to clone libjson-rpc-cpp"
     exit 1
 fi
+
+# echo "[INSTALLING] clone and build libjsonrpc-cpp"
+# git clone https://github.com/cinemast/libjson-rpc-cpp.git
+# if [ $? -ne 0 ]; then
+#     echo "[ERROR] Failed to clone libjson-rpc-cpp"
+#     exit 1
+# fi
+
 mkdir -p libjson-rpc-cpp/build
 cd libjson-rpc-cpp/build
 cmake .. && make

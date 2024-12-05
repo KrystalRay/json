@@ -1,0 +1,15 @@
+.functor mod(x:number, y:number):number
+.functor wkTaint_wrapper(a:number, b:number):symbol
+.functor wkTaint(a:number, b:number):number
+
+.decl modtest(e_0: number)
+modtest(e_0) :- e_0 = @mod(17,3).
+.output modtest(IO=stdout)
+
+// .decl rpctest00(e_1:symbol)
+// rpctest00(e_1) :- e_1 = @wkTaint_wrapper(17,7).
+// .output rpctest00(IO=stdout)
+
+// .decl rpctest01(e_2:number)
+// rpctest01(e_2) :- e_2 = @wkTaint(17,7).
+// .output rpctest01(IO=stdout)

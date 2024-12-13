@@ -14,7 +14,7 @@ int main() {
 
     int source_id = 1;
     int sink_id = 2;
-    Json::Value result = constructJSON(source_id, sink_id);
+    nlohmann::json result = constructJSON(source_id, sink_id);
 
     return 0;
 }

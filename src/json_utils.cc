@@ -10,7 +10,7 @@
 #include <stdexcept>
 
 #include "json_utils.h"
-using json = nlohmann::json;
+// using json = nlohmann::json;
 #ifdef __cplusplus
 extern "C" {
 #endif
